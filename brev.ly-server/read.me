@@ -1,0 +1,53 @@
+📦 Brev.ly Server
+Sistema de encurtamento de URLs com upload de CSV, redirecionamento, estatísticas e exportação para CDN. Desenvolvido com Fastify + Drizzle ORM + Zod.
+🚀 Tecnologias
+• 	Node.js + TypeScript
+• 	Fastify
+• 	Drizzle ORM
+• 	Zod (validação e tipagem)
+• 	Cloudflare R2 (ou Amazon S3) para armazenamento de CSVs
+• 	Swagger () para documentação das rotas
+
+⚙️ Como rodar localmente
+
+Servidor estará rodando em: http://localhost:3333
+Documentação Swagger: http://localhost:3333/docs
+
+📁 Estrutura de rotas
+| Método | Rota | Descrição | 
+| POST | /links | Cria um novo link encurtado manualmente | 
+| DELETE | /uploads/:id | Remove um link pelo ID | 
+| GET | /:shortURL | Redireciona para a URL original e incrementa contagem | 
+| GET | /links | Lista todas as URLs cadastradas | 
+| POST | /uploads | Realiza upload de CSV e salva links + referência remota | 
+| POST | /save-links | Salva links manualmente a partir de remoteKey | 
+| GET | /csv-download | Exporta os links de um arquivo específico para CSV na CDN | 
+| GET | /check/:slug | Validação de link encurtado | 
+
+## 📄 Documentação da API (OpenAPI)
+
+Este projeto utiliza o padrão **OpenAPI 3** para descrever os endpoints de forma estruturada.
+
+Para gerar o arquivo `openapi.json` atualizado, execute o comando:
+
+```bash
+pnpm run export:openapi
+
+
+✅ Checklist funcional
+- [x] Criar link manual (shortURL validado e único)
+- [x] Deletar link por id
+- [x] Obter URL original via encurtada
+- [x] Listar todas as URLs
+- [x] Incrementar contador de acessos
+- [x] Upload de CSV
+- [x] Acesso a CSV via CDN (Cloudflare R2 / S3)
+- [x] Nome único gerado para arquivos remotos
+- [x] Exportação de links com estatísticas
+- [x] Documentação Swagger ativa
+
+🔒 Segurança & Validação
+- Todas as rotas validam parâmetros com Zod
+- Payloads multipart/form-data são tratados com fastify-multipart
+- Redirecionamento incrementa contagem de forma atomizada
+- Swagger transformado com transformSwaggerSchema para evitar erros
